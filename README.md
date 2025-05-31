@@ -1,6 +1,4 @@
-
 This project aims to build a structured and efficient library book data collection system by utilizing the General Tree data structure. The system is designed to store, manage, and browse book data based on a flexible and extensible category hierarchy.
-
 In the General Tree structure, each node can have more than two children, which is very suitable for grouping books based on main categories, subcategories, to a more specific level. For example, the root node can represent “Library”, its children represent categories such as ‘technology’, “literature” and so on. Each category can have subcategories such as “technology > informatics”, “literature > fiction”, and underneath are related book data.
 
 Key Features:
@@ -17,5 +15,3 @@ Implementation:
 Programming language: Python
 Data structure: General Tree with nodes that store category information and book lists.
 Interface: HTML, CSS
-
-Translated with DeepL.com (free version)
