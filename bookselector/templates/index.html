@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perpustakaan Digital</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>📚 Perpustakaan Digital 📚</h1>
+    
+    <div class="nav-menu">
+      <a href="{{ url_for('index') }}" class="nav-link active">🏠 Beranda</a>
+      <a href="{{ url_for('pinjaman') }}" class="nav-link">📘 Buku Dipinjam</a>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for message in messages %}
+            <div class="flash-message">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" class="search-form">
+      <input
+        type="text"
+        name="keyword"
+        placeholder="Cari judul, pengarang, kategori, subkategori, atau tahun..."
+        value="{{ keyword or '' }}"
+      />
+      
+      <div class="sort-options">
+        <select name="sort_by">
+          <option value="judul" {% if sort_by == "judul" %}selected{% endif %}>Judul</option>
+          <option value="pengarang" {% if sort_by == "pengarang" %}selected{% endif %}>Pengarang</option>
+          <option value="tahun" {% if sort_by == "tahun" %}selected{% endif %}>Tahun Terbit</option>
+          <option value="rating" {% if sort_by == "rating" %}selected{% endif %}>Rating</option>
+        </select>
+        
+        <select name="sort_order">
+          <option value="asc" {% if sort_order == "asc" %}selected{% endif %}>Urutan Naik</option>
+          <option value="desc" {% if sort_order == "desc" %}selected{% endif %}>Urutan Turun</option>
+        </select>
+      </div>
+      
+        <button type="submit" name="search" value="true">🔍 Cari </button>
+    </form>
+
+    {% if search_time is not none %}
+      <div class="search-info">
+        Pencarian tree selesai dalam {{ search_time }} ms
+        {% if sort_by == "tahun" and sort_order == "desc" %}
+          (diurutkan berdasarkan tahun terbit terbaru)
+        {% elif sort_by == "tahun" and sort_order == "asc" %}
+          (diurutkan berdasarkan tahun terbit terlama)
+        {% elif sort_by == "rating" and sort_order == "desc" %}
+          (diurutkan berdasarkan rating tertinggi)
+        {% elif sort_by == "rating" and sort_order == "asc" %}
+          (diurutkan berdasarkan rating terendah)
+        {% elif sort_by == "judul" %}
+          (diurutkan berdasarkan judul)
+        {% elif sort_by == "pengarang" %}
+          (diurutkan berdasarkan pengarang)
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if search_results is defined and search_results is not none %}
+      <h2>Hasil Pencarian : "{{ keyword }}"</h2>
+      {% if search_results %}
+        <ul class="book-list">
+          {% for buku in search_results %}
+            <li>
+              <div class="book-title">
+                <strong>{{ buku.judul }}</strong>
+                <span class="rating">{{ buku.rating }}<span class="star">★</span></span>
+              </div>
+              <div class="book-author">oleh {{ buku.pengarang }} ({{ buku.tahun }})</div>
+              <div class="book-actions">
+                {% if buku.judul in peminjaman %}
+                  <span class="borrowed">📕 Sedang dipinjam</span>
+                  <form method="POST" style="display:inline;">
+                    <button type="submit" name="batal" value="{{ buku.judul }}" class="batal-button">❌ Kembalikan</button>
+                  </form>
+                {% else %}
+                  <form method="POST" style="display:inline;">
+                    <button type="submit" name="pinjam" value="{{ buku.judul }}" class="pinjam-button">📗 Pinjam Buku</button>
+                  </form>
+                {% endif %}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="not-found">
+          Tidak ditemukan buku dengan kata kunci "<strong>{{ keyword }}</strong>".
+        </p>
+      {% endif %}
+    {% else %}
+      {% for kategori, subkategori in library_tree.items() %}
+        <div class="kategori-section">
+          <h2>{{ kategori }}</h2>
+          {% for nama, buku_list in subkategori.items() %}
+            <div class="subkategori-section">
+              <h3>{{ nama }}</h3>
+              <ul class="book-list">
+                {% for buku in buku_list %}
+                  <li>
+                    <div class="book-title">
+                      <strong>{{ buku.judul }}</strong>
+                      <span class="rating">{{ buku.rating }}<span class="star">★</span></span>
+                    </div>
+                    <div class="book-author">oleh {{ buku.pengarang }} ({{ buku.tahun }})</div>
+                    <div class="book-actions">
+                      {% if buku.judul in peminjaman %}
+                        <span class="borrowed">📕 Sedang dipinjam</span>
+                        <form method="POST" style="display:inline;">
+                          <button type="submit" name="batal" value="{{ buku.judul }}" class="batal-button">❌ Kembalikan</button>
+                        </form>
+                      {% else %}
+                        <form method="POST" style="display:inline;">
+                          <button type="submit" name="pinjam" value="{{ buku.judul }}" class="pinjam-button">📗 Pinjam Buku</button>
+                        </form>
+                      {% endif %}
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 Perpustakaan Digital - Proyek Struktur Data & Algoritma</p>
+    </div>
+  </footer>
+</body>
+</html>

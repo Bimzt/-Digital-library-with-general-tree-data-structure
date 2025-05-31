@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Buku yang Dipinjam</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>📘 Buku yang Sedang Dipinjam</h1>
+    
+    <div class="nav-menu">
+      <a href="{{ url_for('index') }}" class="nav-link">🏠 Beranda</a>
+      <a href="{{ url_for('pinjaman') }}" class="nav-link active">📘 Buku Dipinjam</a>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for message in messages %}
+            <div class="flash-message">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% if pinjam_list %}
+      <ul class="pinjaman-list">
+        {% for buku in pinjam_list %}
+          <li>
+            <div class="book-title">
+              <strong>{{ buku.judul }}</strong>
+              <span class="rating">{{ buku.rating }}<span class="star">★</span></span>
+            </div>
+            <div class="book-author">oleh {{ buku.pengarang }} ({{ buku.tahun }})</div>
+            <div class="book-actions">
+              <form method="POST" action="{{ url_for('index') }}" style="display:inline;">
+                <button type="submit" name="batal" value="{{ buku.judul }}" class="batal-button">❌ Kembalikan Buku</button>
+              </form>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="not-found">Belum ada buku yang sedang dipinjam.</p>
+    {% endif %}
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 Perpustakaan Digital - Proyek Struktur Data</p>
+    </div>
+  </footer>
+</body>
+</html>
