@@ -3,15 +3,17 @@ from data.book_data import library_tree, find_book_by_title, search_books_tree, 
 import time
 
 app = Flask(__name__)
-app.secret_key = 'apaajalah'
+app.secret_key = 'secretkey123'
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+
     keyword = ""
     search_results = None
     search_time = None
     sort_by = "judul"
     sort_order = "asc"
+    
     if "peminjaman" not in session:
         session["peminjaman"] = []
 
@@ -29,17 +31,18 @@ def index():
             if buku_judul in session["peminjaman"]:
                 session["peminjaman"].remove(buku_judul)
                 session.modified = True
-                flash(f"Peminjaman buku '{buku_judul}' berhasil dibatalkan!")
+                flash(f"Peminjaman buku '{buku_judul}' berhasil dikembalikan!")
             return redirect(url_for('index'))
-
+            
         elif 'search' in request.form:
             keyword = request.form.get("keyword", "").strip()
             sort_by = request.form.get("sort_by", "judul")
             sort_order = request.form.get("sort_order", "asc")
+            
             start_time = time.time()
             search_results = search_books_tree(keyword)
             search_results = sort_books(search_results, sort_by, sort_order)
-            search_time = round((time.time() - start_time) * 1000, 2)
+            search_time = round((time.time() - start_time) * 1000, 2) 
 
     return render_template(
         "index.html",

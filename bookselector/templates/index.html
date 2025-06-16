@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>📚 Perpustakaan Digital 📚</h1>
+    <h1>📚 Perpustakaan Digital</h1>
     
     <div class="nav-menu">
       <a href="{{ url_for('index') }}" class="nav-link active">🏠 Beranda</a>
@@ -25,6 +25,7 @@
       {% endif %}
     {% endwith %}
 
+    <!-- Pencarian dengan Tree dan Sorting -->
     <form method="POST" class="search-form">
       <input
         type="text"
@@ -42,12 +43,12 @@
         </select>
         
         <select name="sort_order">
-          <option value="asc" {% if sort_order == "asc" %}selected{% endif %}>Urutan Naik</option>
-          <option value="desc" {% if sort_order == "desc" %}selected{% endif %}>Urutan Turun</option>
+          <option value="asc" {% if sort_order == "asc" %}selected{% endif %}>Asc</option>
+          <option value="desc" {% if sort_order == "desc" %}selected{% endif %}>Desc</option>
         </select>
-      </div>
-      
+  
         <button type="submit" name="search" value="true">🔍 Cari </button>
+      </div>
     </form>
 
     {% if search_time is not none %}
@@ -69,8 +70,15 @@
       </div>
     {% endif %}
 
+    <!-- Hasil Pencarian -->
     {% if search_results is defined and search_results is not none %}
       <h2>Hasil Pencarian : "{{ keyword }}"</h2>
+      
+      <!-- Tombol kembali ke Beranda dari hasil pencarian -->
+      <button class="tree-view-toggle" onclick="window.location.href='{{ url_for('index') }}'">
+        ⬅️ Kembali ke Beranda
+      </button>
+      
       {% if search_results %}
         <ul class="book-list">
           {% for buku in search_results %}
@@ -101,14 +109,162 @@
         </p>
       {% endif %}
     {% else %}
+      <!-- Tombol kembali ke Refresh -->
+      <button id="reset-tree-view" class="tree-view-toggle" onclick="resetTreeView()">
+        🔄 Refresh
+      </button>
+      
+      <!-- Visualisasi Tree -->
+      <div id="tree-visualization" class="tree-visualization">
+        <div id="tree-breadcrumb" class="tree-breadcrumb">
+          <span class="breadcrumb-home" onclick="resetTreeView()">Perpustakaan</span>
+        </div>
+        
+        <div class="tree-container">
+          {% for kategori, subkategori in library_tree.items() %}
+            <div class="tree-node">
+              <div class="tree-node-header">
+                <span class="tree-toggle-icon">►</span>
+                <span class="tree-node-name">{{ kategori }}</span>
+              </div>
+              <div class="tree-node-content">
+                {% for nama, content in subkategori.items() %}
+                  {% if nama == "Umum_Extended" %}
+                    <!-- Struktur 4 level -->
+                    <div class="tree-node">
+                      <div class="tree-node-header">
+                        <span class="tree-toggle-icon">►</span>
+                        <span class="tree-node-name">Umum (4 Level)</span>
+                      </div>
+                      <div class="tree-node-content">
+                        {% for jenis, buku_list in content.items() %}
+                          <div class="tree-node">
+                            <div class="tree-node-header" onclick="showBooks('{{ kategori }}', 'Umum_Extended', '{{ jenis }}')">
+                              <span class="tree-toggle-icon">►</span>
+                              <span class="tree-node-name">{{ jenis }}</span>
+                              <span class="book-count">{{ buku_list|length }} buku</span>
+                            </div>
+                            <div class="tree-node-content">
+                              {% for buku in buku_list %}
+                                <div class="tree-leaf">{{ buku.judul }}</div>
+                              {% endfor %}
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  {% elif nama == "Umum" and content is iterable and content is not mapping %}
+                    <!-- Struktur 3 level -->
+                    <div class="tree-node">
+                      <div class="tree-node-header" onclick="showBooks('{{ kategori }}', '{{ nama }}')">
+                        <span class="tree-toggle-icon">►</span>
+                        <span class="tree-node-name">{{ nama }} </span>
+                        <span class="book-count">{{ content|length }} buku</span>
+                      </div>
+                      <div class="tree-node-content">
+                        {% for buku in content %}
+                          <div class="tree-leaf">{{ buku.judul }}</div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  {% else %}
+                    <!-- Struktur lainnya -->
+                    <div class="tree-node">
+                      <div class="tree-node-header" onclick="showBooks('{{ kategori }}', '{{ nama }}')">
+                        <span class="tree-toggle-icon">►</span>
+                        <span class="tree-node-name">{{ nama }}</span>
+                        {% if content is iterable and content is not mapping %}
+                          <span class="book-count">{{ content|length }} buku</span>
+                        {% endif %}
+                      </div>
+                      <div class="tree-node-content">
+                        {% if content is iterable and content is not mapping %}
+                          {% for buku in content %}
+                            <div class="tree-leaf">{{ buku.judul }}</div>
+                          {% endfor %}
+                        {% elif content is mapping %}
+                          {% for sub_nama, sub_content in content.items() %}
+                            <div class="tree-node">
+                              <div class="tree-node-header" onclick="showBooks('{{ kategori }}', '{{ nama }}', '{{ sub_nama }}')">
+                                <span class="tree-toggle-icon">►</span>
+                                <span class="tree-node-name">{{ sub_nama }}</span>
+                                {% if sub_content is iterable and sub_content is not mapping %}
+                                  <span class="book-count">{{ sub_content|length }} buku</span>
+                                {% endif %}
+                              </div>
+                              <div class="tree-node-content">
+                                {% if sub_content is iterable and sub_content is not mapping %}
+                                  {% for buku in sub_content %}
+                                    <div class="tree-leaf">{{ buku.judul }}</div>
+                                  {% endfor %}
+                                {% endif %}
+                              </div>
+                            </div>
+                          {% endfor %}
+                        {% endif %}
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Menampilkan buku berdasarkan kategori -->
       {% for kategori, subkategori in library_tree.items() %}
-        <div class="kategori-section">
-          <h2>{{ kategori }}</h2>
-          {% for nama, buku_list in subkategori.items() %}
-            <div class="subkategori-section">
-              <h3>{{ nama }}</h3>
+        {% for nama, content in subkategori.items() %}
+          {% if nama == "Umum_Extended" %}
+            <!-- Struktur 4 level -->
+            {% for jenis, buku_list in content.items() %}
+              <div class="book-container" data-kategori="{{ kategori }}" data-subkategori="{{ nama }}" data-jenis="{{ jenis }}">
+                
+                <button id="back-to-tree-top" class="tree-view-toggle" onclick="resetTreeView()">
+                  ⬅️ Kembali ke Beranda
+                </button>
+                
+                <h2>{{ kategori }} > {{ nama }} > {{ jenis }}</h2>
+                <ul class="book-list">
+                  {% for buku in buku_list %}
+                    <li>
+                      <div class="book-title">
+                        <strong>{{ buku.judul }}</strong>
+                        <span class="rating">{{ buku.rating }}<span class="star">★</span></span>
+                      </div>
+                      <div class="book-author">oleh {{ buku.pengarang }} ({{ buku.tahun }})</div>
+                      <div class="book-actions">
+                        {% if buku.judul in peminjaman %}
+                          <span class="borrowed">📕 Sedang dipinjam</span>
+                          <form method="POST" style="display:inline;">
+                            <button type="submit" name="batal" value="{{ buku.judul }}" class="batal-button">❌ Kembalikan</button>
+                          </form>
+                        {% else %}
+                          <form method="POST" style="display:inline;">
+                            <button type="submit" name="pinjam" value="{{ buku.judul }}" class="pinjam-button">📗 Pinjam Buku</button>
+                          </form>
+                        {% endif %}
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+                
+                <button class="tree-view-toggle" onclick="resetTreeView()">
+                  ⬅️ Kembali ke Beranda
+                </button>
+              </div>
+            {% endfor %}
+          {% elif content is iterable and content is not mapping %}
+            <!-- Struktur 3 level atau struktur lainnya dengan list bukunya -->
+            <div class="book-container" data-kategori="{{ kategori }}" data-subkategori="{{ nama }}">
+              
+              <button id="back-to-tree-top" class="tree-view-toggle" onclick="resetTreeView()">
+                ⬅️ Kembali ke Beranda
+              </button>
+              
+              <h2>{{ kategori }} > {{ nama }}</h2>
               <ul class="book-list">
-                {% for buku in buku_list %}
+                {% for buku in content %}
                   <li>
                     <div class="book-title">
                       <strong>{{ buku.judul }}</strong>
@@ -130,9 +286,54 @@
                   </li>
                 {% endfor %}
               </ul>
+              
+              <button class="tree-view-toggle" onclick="resetTreeView()">
+                ⬅️ Kembali ke Beranda
+              </button>
             </div>
-          {% endfor %}
-        </div>
+          {% elif content is mapping %}
+            <!-- Struktur dengan level tambahan -->
+            {% for sub_nama, sub_content in content.items() %}
+              {% if sub_content is iterable and sub_content is not mapping %}
+                <div class="book-container" data-kategori="{{ kategori }}" data-subkategori="{{ nama }}" data-jenis="{{ sub_nama }}">
+                 
+                  <button id="back-to-tree-top" class="tree-view-toggle" onclick="resetTreeView()">
+                    ⬅️ Kembali ke Beranda
+                  </button>
+                  
+                  <h2>{{ kategori }} > {{ nama }} > {{ sub_nama }}</h2>
+                  <ul class="book-list">
+                    {% for buku in sub_content %}
+                      <li>
+                        <div class="book-title">
+                          <strong>{{ buku.judul }}</strong>
+                          <span class="rating">{{ buku.rating }}<span class="star">★</span></span>
+                        </div>
+                        <div class="book-author">oleh {{ buku.pengarang }} ({{ buku.tahun }})</div>
+                        <div class="book-actions">
+                          {% if buku.judul in peminjaman %}
+                            <span class="borrowed">📕 Sedang dipinjam</span>
+                            <form method="POST" style="display:inline;">
+                              <button type="submit" name="batal" value="{{ buku.judul }}" class="batal-button">❌ Kembalikan</button>
+                            </form>
+                          {% else %}
+                            <form method="POST" style="display:inline;">
+                              <button type="submit" name="pinjam" value="{{ buku.judul }}" class="pinjam-button">📗 Pinjam Buku</button>
+                            </form>
+                          {% endif %}
+                        </div>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                  
+                  <button class="tree-view-toggle" onclick="resetTreeView()">
+                    ⬅️ Kembali ke Beranda
+                  </button>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
       {% endfor %}
     {% endif %}
   </div>
@@ -142,5 +343,190 @@
       <p>© 2025 Perpustakaan Digital - Proyek Struktur Data & Algoritma</p>
     </div>
   </footer>
+
+  <!-- visualisasi tree (inline) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      initTreeView();
+      resetTreeView();
+    });
+
+    function initTreeView() {
+      const treeNodes = document.querySelectorAll('.tree-node');
+      
+      treeNodes.forEach(node => {
+          const nodeHeader = node.querySelector('.tree-node-header');
+          
+          if (nodeHeader) {
+              nodeHeader.addEventListener('click', function(e) {
+                  if (nodeHeader.hasAttribute('onclick')) {
+                      const clickedElement = e.target;
+                      if (!clickedElement.classList.contains('tree-toggle-icon')) {
+                          return;
+                      }
+                  }
+                  
+                  node.classList.toggle('expanded');
+                  
+                  const icon = nodeHeader.querySelector('.tree-toggle-icon');
+                  if (icon) {
+                      if (node.classList.contains('expanded')) {
+                          icon.textContent = '▼';
+                      } else {
+                          icon.textContent = '►';
+                      }
+                  }
+              });
+          }
+      });
+    }
+
+    //Menampilkan buku berdasarkan kategori dan subkategori
+    function showBooks(kategori, subkategori, jenisBuku = null) {
+      const treeView = document.getElementById('tree-visualization');
+      if (treeView) {
+          treeView.style.display = 'none';
+      }
+      
+      const resetButton = document.getElementById('reset-tree-view');
+      if (resetButton) {
+          resetButton.style.display = 'none';
+      }
+      
+      const allBookLists = document.querySelectorAll('.book-container');
+      allBookLists.forEach(list => {
+          list.style.display = 'none';
+      });
+      
+      let selector;
+      if (jenisBuku !== null) {
+          //Struktur 4 level atau struktur dengan level tambahan
+          selector = `.book-container[data-kategori="${kategori}"][data-subkategori="${subkategori}"][data-jenis="${jenisBuku}"]`;
+      } else {
+          //Struktur 3 level
+          selector = `.book-container[data-kategori="${kategori}"][data-subkategori="${subkategori}"]`;
+      }
+      
+      const targetBookList = document.querySelector(selector);
+      if (targetBookList) {
+          targetBookList.style.display = 'block';
+          
+          window.scrollTo(0, 0);
+      }
+      
+      updateBreadcrumb(kategori, subkategori, jenisBuku);
+    }
+
+    function updateBreadcrumb(kategori, subkategori, jenisBuku = null) {
+      const breadcrumb = document.getElementById('tree-breadcrumb');
+      if (!breadcrumb) return;
+      
+      let breadcrumbHTML = `<span class="breadcrumb-home" onclick="resetTreeView()">Perpustakaan</span> &gt; `;
+      breadcrumbHTML += `<span class="breadcrumb-item" onclick="showKategori('${kategori}')">${kategori}</span>`;
+      
+      if (subkategori) {
+          let displaySubkategori = subkategori;
+          if (subkategori === "Umum_Extended") {
+              displaySubkategori = "Umum (4 Level)";
+          }
+          breadcrumbHTML += ` &gt; <span class="breadcrumb-item" onclick="showSubkategori('${kategori}', '${subkategori}')">${displaySubkategori}</span>`;
+      }
+      
+      if (jenisBuku) {
+          breadcrumbHTML += ` &gt; <span class="breadcrumb-item">${jenisBuku}</span>`;
+      }
+      
+      breadcrumb.innerHTML = breadcrumbHTML;
+    }
+
+    //Menampilkan semua buku dalam kategori
+    function showKategori(kategori) {
+      const treeView = document.getElementById('tree-visualization');
+      if (treeView) {
+          treeView.style.display = 'none';
+      }
+      
+      const resetButton = document.getElementById('reset-tree-view');
+      if (resetButton) {
+          resetButton.style.display = 'none';
+      }
+      
+      const allBookLists = document.querySelectorAll('.book-container');
+      allBookLists.forEach(list => {
+          list.style.display = 'none';
+      });
+      
+      const kategoriBooks = document.querySelectorAll(`.book-container[data-kategori="${kategori}"]`);
+      kategoriBooks.forEach(list => {
+          list.style.display = 'block';
+      });
+      
+      window.scrollTo(0, 0);
+      
+      updateBreadcrumb(kategori);
+    }
+
+    //Menampilkan semua buku dalam subkategori
+    function showSubkategori(kategori, subkategori) {
+      const treeView = document.getElementById('tree-visualization');
+      if (treeView) {
+          treeView.style.display = 'none';
+      }
+      
+      const resetButton = document.getElementById('reset-tree-view');
+      if (resetButton) {
+          resetButton.style.display = 'none';
+      }
+      
+      const allBookLists = document.querySelectorAll('.book-container');
+      allBookLists.forEach(list => {
+          list.style.display = 'none';
+      });
+      
+      //Semua buku dalam subkategori
+      const subkategoriBooks = document.querySelectorAll(`.book-container[data-kategori="${kategori}"][data-subkategori="${subkategori}"]`);
+      subkategoriBooks.forEach(list => {
+          list.style.display = 'block';
+      });
+      
+      window.scrollTo(0, 0);
+      
+      updateBreadcrumb(kategori, subkategori);
+    }
+
+    function resetTreeView() {
+      const allBookLists = document.querySelectorAll('.book-container');
+      allBookLists.forEach(list => {
+          list.style.display = 'none';
+      });
+      
+      //Reset breadcrumb
+      const breadcrumb = document.getElementById('tree-breadcrumb');
+      if (breadcrumb) {
+          breadcrumb.innerHTML = '<span class="breadcrumb-home">Selamat Datang di Perpustakaan Digital! Silahkan Cari Buku Yang Anda Inginkan.</span>';
+      }
+      
+      const treeView = document.getElementById('tree-visualization');
+      if (treeView) {
+          treeView.style.display = 'block';
+      }
+      
+      const resetButton = document.getElementById('reset-tree-view');
+      if (resetButton) {
+          resetButton.style.display = 'block';
+      }
+      
+      const expandedNodes = document.querySelectorAll('.tree-node.expanded');
+      expandedNodes.forEach(node => {
+          node.classList.remove('expanded');
+          const icon = node.querySelector('.tree-toggle-icon');
+          if (icon) {
+              icon.textContent = '►';
+          }
+      });
+      
+      window.scrollTo(0, 0);
+    }
+  </script>
 </body>
 </html>

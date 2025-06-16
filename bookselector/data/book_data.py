@@ -2,6 +2,48 @@ library_tree = {
     "Lainnya": {
         "Umum": [
             {
+                "judul": "Harry Potter and the Half-Blood Prince (Harry Potter  #6)",
+                "pengarang": "J.K. Rowling/Mary GrandPré",
+                "tahun": 2006,
+                "rating": 4.57
+            },
+            {
+                "judul": "Harry Potter and the Order of the Phoenix (Harry Potter  #5)",
+                "pengarang": "J.K. Rowling/Mary GrandPré",
+                "tahun": 2004,
+                "rating": 4.49
+            },
+            {
+                "judul": "Harry Potter and the Chamber of Secrets (Harry Potter  #2)",
+                "pengarang": "J.K. Rowling",
+                "tahun": 2003,
+                "rating": 4.42
+            },
+            {
+                "judul": "Harry Potter and the Prisoner of Azkaban (Harry Potter  #3)",
+                "pengarang": "J.K. Rowling/Mary GrandPré",
+                "tahun": 2004,
+                "rating": 4.56
+            },
+            {
+                "judul": "Harry Potter Boxed Set  Books 1-5 (Harry Potter  #1-5)",
+                "pengarang": "J.K. Rowling/Mary GrandPré",
+                "tahun": 2004,
+                "rating": 4.78
+            },
+            {
+                "judul": "Unauthorized Harry Potter Book Seven News: \"Half-Blood Prince\" Analysis and Speculation",
+                "pengarang": "W. Frederick Zimmerman",
+                "tahun": 2005,
+                "rating": 3.74
+            },
+            {
+                "judul": "Harry Potter Collection (Harry Potter  #1-6)",
+                "pengarang": "J.K. Rowling",
+                "tahun": 2005,
+                "rating": 4.73
+            },
+            {
                 "judul": "The Ultimate Hitchhiker's Guide to the Galaxy (Hitchhiker's Guide to the Galaxy  #1-5)",
                 "pengarang": "Douglas Adams",
                 "tahun": 2002,
@@ -66,12 +108,6 @@ library_tree = {
                 "pengarang": "Bill Bryson",
                 "tahun": 1997,
                 "rating": 3.91
-            },
-            {
-                "judul": "Right Stuff  Wrong Sex: America's First Women in Space Program",
-                "pengarang": "Margaret A. Weitekamp",
-                "tahun": 2005,
-                "rating": 3.82
             },
             {
                 "judul": "The Mother Tongue: English and How It Got That Way",
@@ -3300,6 +3336,18 @@ library_tree = {
                 "pengarang": "Colleen Sexton",
                 "tahun": 2005,
                 "rating": 3.84
+            },
+            {
+                "judul": "Harry Potter Schoolbooks Box Set: Two Classic Books from the Library of Hogwarts School of Witchcraft and Wizardry",
+                "pengarang": "J.K. Rowling",
+                "tahun": 2001,
+                "rating": 4.4
+            },
+            {
+                "judul": "Harry Potter and the Half-Blood Prince (Harry Potter  #6)",
+                "pengarang": "J.K. Rowling",
+                "tahun": 2006,
+                "rating": 4.57
             },
             {
                 "judul": "The Santaroga Barrier",
@@ -48686,6 +48734,12 @@ library_tree = {
                 "rating": 3.81
             },
             {
+                "judul": "Harry Potter and the Sorcerer's Stone (Harry Potter  #1)",
+                "pengarang": "J.K. Rowling/Mary GrandPré",
+                "tahun": 1999,
+                "rating": 4.47
+            },
+            {
                 "judul": "Operation Spy School (Adam Sharp  #4)",
                 "pengarang": "George E. Stanley/Guy Francis",
                 "tahun": 2003,
@@ -56774,6 +56828,30 @@ library_tree = {
                 "rating": 4.04
             },
             {
+                "judul": "Harry Potter und die Kammer des Schreckens (Harry Potter  #2)",
+                "pengarang": "J.K. Rowling",
+                "tahun": 2000,
+                "rating": 4.42
+            },
+            {
+                "judul": "Harry Potter und der Gefangene von Askaban (Harry Potter  #3)",
+                "pengarang": "J.K. Rowling/Rufus Beck",
+                "tahun": 2002,
+                "rating": 4.56
+            },
+            {
+                "judul": "Harry Potter ve Sırlar Odası (Harry Potter  #2)",
+                "pengarang": "J.K. Rowling/Sevin Okyay",
+                "tahun": 2001,
+                "rating": 4.42
+            },
+            {
+                "judul": "Harry Potter und der Gefangene von Askaban (Harry Potter  #3)",
+                "pengarang": "J.K. Rowling",
+                "tahun": 2001,
+                "rating": 4.56
+            },
+            {
                 "judul": "Infants  Children  and Adolescents (MyDevelopmentLab Series)",
                 "pengarang": "Laura E. Berk",
                 "tahun": 2004,
@@ -57246,6 +57324,12 @@ library_tree = {
                 "pengarang": "Lois Lenski",
                 "tahun": 2000,
                 "rating": 3.56
+            },
+            {
+                "judul": "Right Stuff  Wrong Sex: America's First Women in Space Program",
+                "pengarang": "Margaret A. Weitekamp",
+                "tahun": 2005,
+                "rating": 3.82
             },
             {
                 "judul": "The Right Stuff (To Protect and Defend #3)",
@@ -58566,6 +58650,18 @@ library_tree = {
                 "pengarang": "V.C. Andrews/Michael Görden",
                 "tahun": 2002,
                 "rating": 3.77
+            },
+            {
+                "judul": "Harry Potter and the Philosopher's Stone (Harry Potter  #1)",
+                "pengarang": "J.K. Rowling",
+                "tahun": 2010,
+                "rating": 4.47
+            },
+            {
+                "judul": "Harry Potter and the Goblet of Fire (Harry Potter  #4)",
+                "pengarang": "J.K. Rowling",
+                "tahun": 2000,
+                "rating": 4.56
             },
             {
                 "judul": "Sun-Kissed (The Au Pairs #3)",
@@ -60984,107 +61080,11 @@ library_tree = {
                 "pengarang": "Mark Twain",
                 "tahun": 2006,
                 "rating": 3.91
-            },
+            }
         ]
     },
     "Sastra": {
         "Fiksi": [
-            {
-                "judul": "Harry Potter and the Sorcerer's Stone (Harry Potter  #1)",
-                "pengarang": "J.K. Rowling/Mary GrandPré",
-                "tahun": 1999,
-                "rating": 4.47
-            },
-            {
-                "judul": "Harry Potter und die Kammer des Schreckens (Harry Potter  #2)",
-                "pengarang": "J.K. Rowling",
-                "tahun": 2000,
-                "rating": 4.42
-            },
-            {
-                "judul": "Harry Potter und der Gefangene von Askaban (Harry Potter  #3)",
-                "pengarang": "J.K. Rowling/Rufus Beck",
-                "tahun": 2002,
-                "rating": 4.56
-            },
-            {
-                "judul": "Harry Potter ve Sırlar Odası (Harry Potter  #2)",
-                "pengarang": "J.K. Rowling/Sevin Okyay",
-                "tahun": 2001,
-                "rating": 4.42
-            },
-            {
-                "judul": "Harry Potter und der Gefangene von Askaban (Harry Potter  #3)",
-                "pengarang": "J.K. Rowling",
-                "tahun": 2001,
-                "rating": 4.56
-            },
-            {
-                "judul": "Harry Potter and the Philosopher's Stone (Harry Potter  #1)",
-                "pengarang": "J.K. Rowling",
-                "tahun": 2010,
-                "rating": 4.47
-            },
-            {
-                "judul": "Harry Potter and the Goblet of Fire (Harry Potter  #4)",
-                "pengarang": "J.K. Rowling",
-                "tahun": 2000,
-                "rating": 4.56
-            },
-            {
-                "judul": "Harry Potter and the Half-Blood Prince (Harry Potter  #6)",
-                "pengarang": "J.K. Rowling/Mary GrandPré",
-                "tahun": 2006,
-                "rating": 4.57
-            },
-            {
-                "judul": "Harry Potter and the Order of the Phoenix (Harry Potter  #5)",
-                "pengarang": "J.K. Rowling/Mary GrandPré",
-                "tahun": 2004,
-                "rating": 4.49
-            },
-            {
-                "judul": "Harry Potter and the Chamber of Secrets (Harry Potter  #2)",
-                "pengarang": "J.K. Rowling",
-                "tahun": 2003,
-                "rating": 4.42
-            },
-            {
-                "judul": "Harry Potter and the Prisoner of Azkaban (Harry Potter  #3)",
-                "pengarang": "J.K. Rowling/Mary GrandPré",
-                "tahun": 2004,
-                "rating": 4.56
-            },
-            {
-                "judul": "Harry Potter Boxed Set  Books 1-5 (Harry Potter  #1-5)",
-                "pengarang": "J.K. Rowling/Mary GrandPré",
-                "tahun": 2004,
-                "rating": 4.78
-            },
-            {
-                "judul": "Unauthorized Harry Potter Book Seven News: \"Half-Blood Prince\" Analysis and Speculation",
-                "pengarang": "W. Frederick Zimmerman",
-                "tahun": 2005,
-                "rating": 3.74
-            },
-            {
-                "judul": "Harry Potter Collection (Harry Potter  #1-6)",
-                "pengarang": "J.K. Rowling",
-                "tahun": 2005,
-                "rating": 4.73
-            },
-            {
-                "judul": "Harry Potter Schoolbooks Box Set: Two Classic Books from the Library of Hogwarts School of Witchcraft and Wizardry",
-                "pengarang": "J.K. Rowling",
-                "tahun": 2001,
-                "rating": 4.4
-            },
-            {
-                "judul": "Harry Potter and the Half-Blood Prince (Harry Potter  #6)",
-                "pengarang": "J.K. Rowling",
-                "tahun": 2006,
-                "rating": 4.57
-            },
             {
                 "judul": "The Ultimate Hitchhiker's Guide: Five Complete Novels and One Story (Hitchhiker's Guide to the Galaxy  #1-5)",
                 "pengarang": "Douglas Adams",
@@ -66756,11 +66756,12 @@ def search_books_tree(keyword):
     
     for kategori, subkategori_dict in library_tree.items():
         kategori_match = keyword in kategori.lower()
-        
+
         for subkategori, buku_list in subkategori_dict.items():
             subkategori_match = keyword in subkategori.lower()
             
             for buku in buku_list:
+                
                 if (
                     kategori_match or
                     subkategori_match or
@@ -66769,15 +66770,17 @@ def search_books_tree(keyword):
                     keyword in str(buku.get("tahun", ""))
                 ):
                     results.append(buku)
-                    
     return results
 
 def sort_books(books, sort_by="judul", sort_order="asc"):
     if not books:
         return []
+
     reverse = sort_order == "desc"
+    
     if sort_by == "tahun" or sort_by == "rating":
-        sorted_books = sorted(books, key=lambda x: x.get(sort_by, 0), reverse=reverse)
+        sorted_books = sorted(books, key=lambda x: x.get(sort_by, 0), reverse = sort_order == "asc")
     else:
         sorted_books = sorted(books, key=lambda x: x.get(sort_by, "").lower(), reverse=reverse)
+    
     return sorted_books
